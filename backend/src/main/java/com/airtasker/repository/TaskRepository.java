@@ -31,8 +31,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
            "(:categoryId IS NULL OR t.category.id = :categoryId) AND " +
            "(:minBudget IS NULL OR t.budgetMin >= :minBudget) AND " +
            "(:maxBudget IS NULL OR t.budgetMax <= :maxBudget) AND " +
-           "(:location IS NULL OR LOWER(t.location) LIKE LOWER(CONCAT('%', :location, '%'))) AND " +
-           "(:search IS NULL OR LOWER(t.title) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(t.description) LIKE LOWER(CONCAT('%', :search, '%')))")
+           "(:location IS NULL OR LOWER(CAST(t.location AS string)) LIKE LOWER(CAST(CONCAT('%', :location, '%') AS string))) AND " +
+           "(:search IS NULL OR LOWER(CAST(t.title AS string)) LIKE LOWER(CAST(CONCAT('%', :search, '%') AS string)) OR LOWER(CAST(t.description AS string)) LIKE LOWER(CAST(CONCAT('%', :search, '%') AS string)))")
     Page<Task> findWithFilters(
             @Param("status") TaskStatus status,
             @Param("categoryId") Long categoryId,
